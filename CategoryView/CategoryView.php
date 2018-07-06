@@ -17,10 +17,7 @@ class myCategoryViewer extends CategoryViewer {
 							
 	}
 	
-	function settitle($title)
-	{
-		$this->title = $title;
-	}
+
 	/**
 	 * Add a subcategory to the internal lists, using a Category object
 	 * @param Category $cat
@@ -74,7 +71,7 @@ class myCategoryViewer extends CategoryViewer {
 		$s = '';		
 		$title = $this->title;
 		$cat = Category::newFromTitle($title);
-		$htmlroot = new htmlroot("", Null, $title->getText(), $title->getlinkUrl());	
+		$htmlroot = new htmlroot("", Null, $cat->getName(), '');	
 		$this->addmembercategory($htmlroot, $cat);
 		
 		$opts = array('short' =>'false', 'maxlevel' => 9999, 'showkeyword' => 'false', 

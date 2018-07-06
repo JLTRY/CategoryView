@@ -48,7 +48,8 @@ $wgExtensionMessagesFiles['category'] = dirname( __FILE__ ) . '/categoryparser.i
 
 function categoryviewrender($context, $options, &$input)
 {		
-	$cw = new myCategoryViewer( Title::newFromText( $options['title'], NS_CATEGORY ) , $context);	
+	$cw = new myCategoryViewer( Title::newFromText( $options['title'], NS_CATEGORY ) , $context);
+	$cw->settitle($options['title']);
 	$cw->clearCategoryState();
 	$s = $cw->getSubcategorySectionoptions($options); 
 	$input = $s;	
