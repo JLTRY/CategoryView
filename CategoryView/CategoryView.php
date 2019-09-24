@@ -17,7 +17,10 @@ class myCategoryViewer extends CategoryViewer {
 							
 	}
 	
-
+	function settitle() {
+		//parent::clearCategoryState();		
+							
+	}
 	/**
 	 * Add a subcategory to the internal lists, using a Category object
 	 * @param Category $cat
