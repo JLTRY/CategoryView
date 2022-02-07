@@ -66,9 +66,9 @@ class myCategoryViewer extends CategoryViewer {
 	 * @param int $pageLength
 	 * @param bool $isRedirect
 	 */
-	function addPage( $title, $sortkey, $pageLength, $isRedirect = false ) {
+	function addPage( MediaWiki\Page\PageReference $page, string $sortkey, int $pageLength, bool $isRedirect = false ): void {
 								
-	}	
+	}
 	
 	function getSubcategorySectionoptions($options) {
 		$s = '';		
