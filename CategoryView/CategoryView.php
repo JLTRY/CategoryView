@@ -49,7 +49,7 @@ class myCategoryViewer extends CategoryViewer {
 				}	
 				else	
 				{
-					if ($title->userCan( 'read' ))
+					if (!$title->isProtected( 'read' ))
 						new htmlfile($dir, array('title' => $title->getText(),
 											'bmkUri' => $title->getlinkUrl()));
 				}							
