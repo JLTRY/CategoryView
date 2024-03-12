@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . "/../../../weave/favorites/favoritessync/readsync.body.php");
+require_once(dirname(__FILE__) . "/../../../weave/favoritessync/readsync.body.php");
 $wgHooks['ArticleFromTitle'][] = 'myCategoryTreeArticleFromTitle';
 
 
