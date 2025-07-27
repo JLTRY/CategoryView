@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__) . "/../../../weave/favoritessync/readsync.body.php");
 use MediaWiki\MediaWikiServices;
-
+use MediaWiki\Title\Title;
 $wgHooks['ArticleFromTitle'][] = 'myCategoryTreeArticleFromTitle';
 
 
@@ -20,7 +20,7 @@ class myCategoryViewer extends CategoryViewer {
 
 	function settitle() {
 		//parent::clearCategoryState();
-
+		print("settitle");
 	}
 	/**
 	 * Add a subcategory to the internal lists, using a Category object
@@ -75,7 +75,7 @@ class myCategoryViewer extends CategoryViewer {
 
 	function getSubcategorySectionoptions($options) {
 		$s = '';
-		$title = $this->title;
+		$title = Title::newFromPageIdentity( $this->page );
 		$cat = Category::newFromTitle($title);
 		$htmlroot = new htmlroot("", Null, $cat->getName(), '');
 		$this->addmembercategory($htmlroot, $cat);
@@ -96,7 +96,7 @@ class myCategoryViewer extends CategoryViewer {
 				if ($htmlroot->getlevel()> 1)
 					$s .= '<h2> Sous Catégories </h2>';
 				else
-					$s .= '<h2> Pages de ' . $this->title .  '</h2>';
+					$s .= '<h2> Pages de ' . $title .  '</h2>';
 			}
 			$s .= '<div class="css-treeview">';
 			$htmlroot->writecss3treeview(0, $s, ($short == 'true'), $maxlevel, ($showkeyword == 'true'), $openlevel, $minlevel, $type);
