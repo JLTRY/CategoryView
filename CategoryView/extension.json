@@ -1,0 +1,25 @@
+{
+	"name": "CategoryView",
+	"version": "1.0.2",
+	"author": [
+		"[http://www.mediawiki.org/wiki/User:JLTRY JLTRY]"
+	],
+	"description": "Category View",
+	"license-name": "GPL-2.0-or-later",
+	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.34.0"
+	},
+	"AutoloadClasses" : {
+		"MediaWiki\\Extension\\CategoryView\\Hooks\\Handlers\\ArticleFromTitle" : "CategoryView.php"
+	},
+	"Hooks": {
+		"ArticleFromTitle": "ArticleFromTitle"
+	},
+	"HookHandlers": {
+		"ArticleFromTitle": {
+			"class" : "MediaWiki\\Extension\\CategoryView\\Hooks\\Handlers\\ArticleFromTitle"
+		}
+	},
+	"manifest_version": 1
+}

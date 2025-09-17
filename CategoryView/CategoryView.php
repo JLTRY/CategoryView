@@ -1,17 +1,22 @@
 <?php
 
-require_once(dirname(__FILE__) . "/../../../weave/favoritessync/readsync.body.php");
+namespace MediaWiki\Extension\CategoryView\Hooks\Handlers;
+require_once(dirname(__FILE__) . "/../../../weave/favoritessync/mediawiki.php");
+
+use MediaWiki\Page\CategoryPage;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
-$wgHooks['ArticleFromTitle'][] = 'myCategoryTreeArticleFromTitle';
+use MediaWiki\Category\CategoryViewer as baseCategoryViewer;
+use MediaWiki\Category\Category;
+use MediaWiki\Page\Hook\ArticleFromTitleHook;
 
 
 
 class myCategoryPage extends CategoryPage {
-	protected $mCategoryViewerClass = 'myCategoryViewer';
+	protected $mCategoryViewerClass = 'MediaWiki\Extension\CategoryView\Hooks\Handlers\CategoryViewer';
 }
 
-class myCategoryViewer extends CategoryViewer {
+class CategoryViewer extends baseCategoryViewer {
 	public $htmlroot;
 	
 	function clearCategoryState() {
@@ -21,14 +26,6 @@ class myCategoryViewer extends CategoryViewer {
 	function settitle() {
 		//parent::clearCategoryState();
 		print("settitle");
-	}
-	/**
-	 * Add a subcategory to the internal lists, using a Category object
-	 * @param Category $cat
-	 * @param string $sortkey
-	 * @param int $pageLength
-	 */
-	function addSubcategoryObject( Category $cat, $sortkey, $pageLength ) {
 	}
 
 	function addmembercategory($dir, $cat)
@@ -42,7 +39,7 @@ class myCategoryViewer extends CategoryViewer {
 				$title = $it->current();
 				if ( $title->getNamespace() == NS_CATEGORY ) 
 				{
-					$newdir = new htmldirectory($dir,
+					$newdir = new \htmldirectory($dir,
 									array('title' => $title->getText(),
 										 'bmkUri' => $title->getlinkUrl()));
 					$newcat = Category::newFromTitle( $title );
@@ -53,7 +50,7 @@ class myCategoryViewer extends CategoryViewer {
 					$services = MediaWikiServices::getInstance();
 					$restrictionStore = $services->getRestrictionStore();
 					if (! $restrictionStore->getRestrictions( $title,  'read' ))
-						new htmlfile($dir, array('title' => $title->getText(),
+						new \htmlfile($dir, array('title' => $title->getText(),
 											'bmkUri' => $title->getlinkUrl()));
 				}
 				$it->next();
@@ -69,7 +66,7 @@ class myCategoryViewer extends CategoryViewer {
 	 * @param int $pageLength
 	 * @param bool $isRedirect
 	 */
-	function addPage( MediaWiki\Page\PageReference $page, string $sortkey, int $pageLength, bool $isRedirect = false ): void {
+	function addPage( \MediaWiki\Page\PageReference $page, string $sortkey, int $pageLength, bool $isRedirect = false ): void {
 
 	}
 
@@ -77,7 +74,7 @@ class myCategoryViewer extends CategoryViewer {
 		$s = '';
 		$title = Title::newFromPageIdentity( $this->page );
 		$cat = Category::newFromTitle($title);
-		$htmlroot = new htmlroot("", Null, $cat->getName(), '');
+		$htmlroot = new \htmlroot("", Null, $cat->getName(), '');
 		$this->addmembercategory($htmlroot, $cat);
 
 		$opts = array('short' =>'false', 'maxlevel' => 9999, 'showkeyword' => 'false', 
@@ -124,10 +121,12 @@ class myCategoryViewer extends CategoryViewer {
  * @param $article Article
  * @return bool
  */
-function myCategoryTreeArticleFromTitle( $title, &$article ) {
-	if ( $title->getNamespace() == NS_CATEGORY ) {
-		$article = new myCategoryPage( $title );
-	}
+class ArticleFromTitle implements ArticleFromTitleHook {
+    function onArticleFromTitle( $title, &$article, $context ) {
+        if ( $title->getNamespace() == NS_CATEGORY ) {
+            $article = new myCategoryPage( $title );
+        }
 	return true;
+    }
 }
 ?>
