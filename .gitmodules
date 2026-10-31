@@ -1,0 +1,3 @@
+[submodule "libfavorites"]
+	path = libfavorites
+	url = https://github.com/JLTRY/libfavorites

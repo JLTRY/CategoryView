@@ -1,7 +1,7 @@
 <?php
 
 namespace MediaWiki\Extension\CategoryView\Hooks\Handlers;
-require_once(dirname(__FILE__) . "/../../../weave/favoritessync/readsync.body.php");
+
 
 use MediaWiki\Page\CategoryPage;
 use MediaWiki\MediaWikiServices;
@@ -10,7 +10,11 @@ use MediaWiki\Category\CategoryViewer as baseCategoryViewer;
 use MediaWiki\Category\Category;
 use MediaWiki\Page\Hook\ArticleFromTitleHook;
 
-
+if (!defined('_JEXEC')) {
+    define('_JEXEC', 1);
+}
+require_once(dirname(__FILE__) . "/libfavorites/src/readsync.body.php");
+//require_once(dirname(__FILE__) . "/../../weave/favoritessync/readsync.body.php");
 
 class myCategoryPage extends CategoryPage {
 	protected $mCategoryViewerClass = 'MediaWiki\Extension\CategoryView\Hooks\Handlers\CategoryViewer';
@@ -18,7 +22,6 @@ class myCategoryPage extends CategoryPage {
 
 class CategoryViewer extends baseCategoryViewer {
 	public $htmlroot;
-	
 	function clearCategoryState() {
 		parent::clearCategoryState();
 	}
@@ -86,7 +89,8 @@ class CategoryViewer extends baseCategoryViewer {
 				$$opt = $key;
 		if (count($htmlroot->getchildren()))
 		{
-			$s .= '<link rel="stylesheet" type="text/css" href="/favorites/css/css3treeview.css">';
+
+            
 			$s .= '<div class="' . $div . '">';
 			if ($showtitle != 'false')
 			{
@@ -109,6 +113,9 @@ class CategoryViewer extends baseCategoryViewer {
 	}
 
 	function getPagesSection() {
+        $this->getOutput()->addModuleStyles( [
+                'ext.categoryview'
+        ] );
 		return parent::getPagesSection();
 	}
 

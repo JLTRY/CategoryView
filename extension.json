@@ -21,5 +21,17 @@
 			"class" : "MediaWiki\\Extension\\CategoryView\\Hooks\\Handlers\\ArticleFromTitle"
 		}
 	},
+    "ResourceFileModulePaths": {
+		"localBasePath": "libfavorites/media",
+		"remoteExtPath": "CategoryView/libfavorites/media"
+	},
+	"ResourceModules": {
+		"ext.categoryview": {
+			"styles": "css/css3treeview.css",
+			"scripts": [],
+			"dependencies": [
+			]
+		}
+	},
 	"manifest_version": 1
 }
