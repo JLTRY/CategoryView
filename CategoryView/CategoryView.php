@@ -1,7 +1,7 @@
 <?php
 
 namespace MediaWiki\Extension\CategoryView\Hooks\Handlers;
-require_once(dirname(__FILE__) . "/../../../weave/favoritessync/mediawiki.php");
+require_once(dirname(__FILE__) . "/../../../weave/favoritessync/readsync.body.php");
 
 use MediaWiki\Page\CategoryPage;
 use MediaWiki\MediaWikiServices;
