@@ -9,12 +9,14 @@ use MediaWiki\Title\Title;
 use MediaWiki\Category\CategoryViewer as baseCategoryViewer;
 use MediaWiki\Category\Category;
 use MediaWiki\Page\Hook\ArticleFromTitleHook;
+use JLTRY\LibFavorites\Htmldirectory;
+use JLTRY\LibFavorites\HtmlFile;
+use JLTRY\LibFavorites\HtmlRoot;
 
 if (!defined('_JEXEC')) {
     define('_JEXEC', 1);
 }
-require_once(dirname(__FILE__) . "/libfavorites/src/readsync.body.php");
-//require_once(dirname(__FILE__) . "/../../weave/favoritessync/readsync.body.php");
+
 
 class myCategoryPage extends CategoryPage {
 	protected $mCategoryViewerClass = 'MediaWiki\Extension\CategoryView\Hooks\Handlers\CategoryViewer';
@@ -42,7 +44,7 @@ class CategoryViewer extends baseCategoryViewer {
 				$title = $it->current();
 				if ( $title->getNamespace() == NS_CATEGORY ) 
 				{
-					$newdir = new \htmldirectory($dir,
+					$newdir = new HtmlDirectory($dir,
 									array('title' => $title->getText(),
 										 'bmkUri' => $title->getlinkUrl()));
 					$newcat = Category::newFromTitle( $title );
@@ -53,7 +55,7 @@ class CategoryViewer extends baseCategoryViewer {
 					$services = MediaWikiServices::getInstance();
 					$restrictionStore = $services->getRestrictionStore();
 					if (! $restrictionStore->getRestrictions( $title,  'read' ))
-						new \htmlfile($dir, array('title' => $title->getText(),
+						new HtmlFile($dir, array('title' => $title->getText(),
 											'bmkUri' => $title->getlinkUrl()));
 				}
 				$it->next();
@@ -77,7 +79,7 @@ class CategoryViewer extends baseCategoryViewer {
 		$s = '';
 		$title = Title::newFromPageIdentity( $this->page );
 		$cat = Category::newFromTitle($title);
-		$htmlroot = new \htmlroot("", Null, $cat->getName(), '');
+		$htmlroot = new HtmlRoot("", Null, $cat->getName(), '');
 		$this->addmembercategory($htmlroot, $cat);
 
 		$opts = array('short' =>'false', 'maxlevel' => 9999, 'showkeyword' => 'false', 
@@ -89,8 +91,6 @@ class CategoryViewer extends baseCategoryViewer {
 				$$opt = $key;
 		if (count($htmlroot->getchildren()))
 		{
-
-            
 			$s .= '<div class="' . $div . '">';
 			if ($showtitle != 'false')
 			{

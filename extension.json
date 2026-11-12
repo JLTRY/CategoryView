@@ -13,6 +13,9 @@
 	"AutoloadClasses" : {
 		"MediaWiki\\Extension\\CategoryView\\Hooks\\Handlers\\ArticleFromTitle" : "CategoryView.php"
 	},
+	"AutoloadNamespaces": {
+		"JLTRY\\LibFavorites\\": "libfavorites/src/"
+	},
 	"Hooks": {
 		"ArticleFromTitle": "ArticleFromTitle"
 	},
